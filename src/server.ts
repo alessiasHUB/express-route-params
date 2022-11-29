@@ -8,23 +8,39 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/eat/:exampleRouteParameter", (req, res) => {
+  const eatContent = req.params.exampleRouteParameter;
+
+  let divWord = ''
+  if (eatContent[0].toLowerCase().match(/[aeiou]/ig)){
+    divWord = 'an'
+  } else {
+    divWord = 'a'
+  }
+  
+  res.json({
+    food: eatContent,
+    message: `Yum yum - you ate ${divWord} ${eatContent}!`,
+  });
+});
+
+/*
 app.get("/eat/apple", (req, res) => {
   res.json({
     message: "Yum yum - you ate an apple!",
   });
 });
-
 app.get("/eat/banana", (req, res) => {
   res.json({
     message: "Yum yum - you ate a banana!",
   });
 });
-
 app.get("/eat/carrot", (req, res) => {
   res.json({
     message: "Yum yum - you ate a carrot!",
   });
 });
+*/
 
 app.get("/echo/:exampleRouteParameter", (req, res) => {
   const echoContent = req.params.exampleRouteParameter;
