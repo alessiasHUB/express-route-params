@@ -8,16 +8,42 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/eat/:exampleRouteParameter", (req, res) => {
-  const eatContent = req.params.exampleRouteParameter;
-
-  let divWord = ''
-  if (eatContent[0].toLowerCase().match(/[aeiou]/ig)){
-    divWord = 'an'
-  } else {
-    divWord = 'a'
+app.get<{ numOne: number; numTwo: number; numThree: number }>(
+  "/add/:numOne/:numTwo/:numThree?",
+  (req, res) => {
+    let originalString = `${req.params.numOne} + ${req.params.numTwo}`;
+    let resultNum = Number(req.params.numOne) + Number(req.params.numTwo);
+    if (req.params.numThree) {
+      originalString = `${req.params.numOne} + ${req.params.numTwo} + ${req.params.numThree}`;
+      resultNum =
+        Number(req.params.numOne) +
+        Number(req.params.numTwo) +
+        Number(req.params.numThree);
+    }
+    res.json({
+      origional: originalString,
+      result: resultNum,
+    });
   }
-  
+);
+
+app.get<{ words: string }>("/shout/:words", (req, res) => {
+  res.json({
+    shout: `${req.params.words.toUpperCase()}!`,
+    result: `I am shouting back to you: ${req.params.words.toUpperCase()}!`,
+  });
+});
+
+app.get<{ food: string }>("/eat/:food", (req, res) => {
+  const eatContent = req.params.food;
+
+  let divWord = "";
+  if (eatContent[0].toLowerCase().match(/[aeiou]/gi)) {
+    divWord = "an";
+  } else {
+    divWord = "a";
+  }
+
   res.json({
     food: eatContent,
     message: `Yum yum - you ate ${divWord} ${eatContent}!`,
